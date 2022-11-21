@@ -11,6 +11,10 @@ ROUTES.forEach(item => {
     app.use(item.url, [item.validation, createProxyMiddleware(item.options)])
 })  
 
+app.get('/manage/health', function(req, res) {
+    return res.status(200).json({});
+})
+
 setInterval(() => {
     BREAKERS.forEach(breaker => {
         breaker
