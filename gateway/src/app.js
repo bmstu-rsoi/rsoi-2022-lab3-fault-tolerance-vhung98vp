@@ -38,6 +38,6 @@ setInterval(() => {
             //.then(console.log)
             //.catch(console.error)
     });
-}, 5000)   // Try after 5s
+}, 3000)   // Try after 5s
 
 module.exports = app;

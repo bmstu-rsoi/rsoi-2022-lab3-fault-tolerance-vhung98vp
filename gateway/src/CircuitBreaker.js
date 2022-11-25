@@ -2,9 +2,9 @@ class CircuitBreaker {
     constructor(request) {
         this.request = request;
         this.state = "CLOSED";
-        this.failureThreshold = 2;
+        this.failureThreshold = 1;
         this.failureCount = 0;
-        this.successThreshold = 2;
+        this.successThreshold = 1;
         this.successCount = 0;
         this.timeout = 3000;
         this.nextAttempt = Date.now();
