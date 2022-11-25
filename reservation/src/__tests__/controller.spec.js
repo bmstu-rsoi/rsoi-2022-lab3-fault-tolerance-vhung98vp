@@ -101,6 +101,7 @@ describe('Test reservation controller', () => {
 
         it('Should success', async() => {
             Reservation.findOne = jest.fn().mockResolvedValue(reservation);
+            Reservation.update = jest.fn().mockResolvedValue({});
             axios.get = jest.fn().mockResolvedValueOnce({data: {stars: 10}}).mockResolvedValue({data: {}});
             axios.patch = jest.fn().mockResolvedValue({});
             await request(app)
