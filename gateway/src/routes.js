@@ -4,6 +4,7 @@ const RESERVATION_URL = process.env.RESERVATION_URL || 'http://localhost:8070';
 const BREAKERS = require('./breakers');
 
 const onReservationReq = function (req, res, next) {
+    console.log("On Reservation req")
     if(BREAKERS[2].state == "OPEN") {
         res.status(503).send({message: "Reservation Service unavailable"})
     } else {
@@ -11,6 +12,7 @@ const onReservationReq = function (req, res, next) {
     }
 };
 const onLibraryReq = function (req, res, next) {
+    console.log("On Library req")
     if(BREAKERS[1].state == "OPEN") {
         res.status(503).send({message: "Library Service unavailable"})
     } else {
@@ -18,6 +20,7 @@ const onLibraryReq = function (req, res, next) {
     }
 };
 const onRatingReq = function (req, res, next) {
+    console.log("On Rating req")
     if(BREAKERS[0].state == "OPEN") {
         res.status(503).send({message: "Bonus Service unavailable"})
     } else {

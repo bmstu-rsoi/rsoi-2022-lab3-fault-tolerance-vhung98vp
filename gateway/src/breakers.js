@@ -6,38 +6,41 @@ const RESERVATION_URL = process.env.RESERVATION_URL || 'http://localhost:8070';
 
 function ratingRequest() {
     return new Promise((resolve, reject) => {
-        let response;
-        try {
-            response = axios.get(RATING_URL + '/manage/health');
-            resolve({message: "Success"})
-        } catch(error) {
-            reject({message: error})
-        }
-    })
+        axios.get(RATING_URL + '/manage/health')
+            .then(response => {
+                if (response.status !== 200) {
+                    return reject(new Error(`Expected status code 200, instead got ${response.status}`));
+                }        
+                resolve(response.data);
+            })
+            .catch(reject);
+    });
 }
 
 function libraryRequest() {
     return new Promise((resolve, reject) => {
-        let response;
-        try {
-            response = axios.get(LIBRARY_URL + '/manage/health');
-            resolve({message: "Success"})
-        } catch(error) {
-            reject({message: error})
-        }
-    })
+        axios.get(LIBRARY_URL + '/manage/health')
+            .then(response => {
+                if (response.status !== 200) {
+                    return reject(new Error(`Expected status code 200, instead got ${response.status}`));
+                }        
+                resolve(response.data);
+            })
+            .catch(reject);
+    });
 }
 
 function reservationRequest() {
     return new Promise((resolve, reject) => {
-        let response;
-        try {
-            response = axios.get(RESERVATION_URL + '/manage/health');
-            resolve({message: "Success"})
-        } catch(error) {
-            reject({message: error})
-        }
-    })
+        axios.get(RESERVATION_URL + '/manage/health')
+            .then(response => {
+                if (response.status !== 200) {
+                    return reject(new Error(`Expected status code 200, instead got ${response.status}`));
+                }        
+                resolve(response.data);
+            })
+            .catch(reject);
+    });
 }
 
 const ratingBreaker = new CircuitBreaker(ratingRequest);
