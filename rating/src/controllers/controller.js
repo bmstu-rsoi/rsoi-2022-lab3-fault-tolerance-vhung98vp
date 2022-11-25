@@ -15,7 +15,8 @@ class RatingController {
         let username = req.headers['x-user-name'];
         let rating = await Rating.findOne({where: {username}});
         if(rating){
-            await Rating.update({stars: req.body.stars}, {where: {username}});
+            let stars = rating.stars + req.body.stars;
+            await Rating.update({stars}, {where: {username}});
             return res.status(200).json();
         } else {
             return res.status(404).json({message: "Rating not found"});
