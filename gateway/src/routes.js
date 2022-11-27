@@ -27,6 +27,11 @@ const onRatingReq = function (req, res, next) {
         next();
     }
 };
+const onRatingError = function(err, req, res, target) {
+    console.log("On Rating res")
+    BREAKERS[0].failureCount += 1;
+    res.status(503).send({message: "Bonus Service unavailable"})
+}
 
 const ROUTES = [
     {
@@ -62,7 +67,8 @@ const ROUTES = [
         options: {
             target: RATING_URL,
             changeOrigin: true,
-            pathRewrite: {'^/api/v1' : ''}
+            pathRewrite: {'^/api/v1' : ''},
+            onError: onRatingError
         }
     }
 ]
