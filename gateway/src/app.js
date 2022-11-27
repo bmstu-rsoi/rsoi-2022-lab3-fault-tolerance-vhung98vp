@@ -53,14 +53,16 @@ function queue(req, res, next){
             let {method, url, headers, body} = JSON.parse(resp.message);
             if(method == 'patch'){
                 try {
-                    axios.patch(url, body, {headers: headers});
+                    axios.patch(url, body, {headers: headers}).then(response => {
+                        console.log("Patched data")
+                    })                    
                     rsmq.deleteMessage({ qname: "APPQUEUE", id: resp.id }, (err) => {
                         if (err) {
                            console.error(err);
                            return;
                         }
                         console.log("Deleted message with id", resp.id);
-                    });                
+                    });                                  
                 } catch (err) {
                     console.log(err)
                 }
