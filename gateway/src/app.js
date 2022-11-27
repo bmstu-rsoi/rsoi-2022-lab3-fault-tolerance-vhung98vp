@@ -9,14 +9,14 @@ const app = express();
 app.use(morgan('combined'));
 
 ROUTES.forEach(item => {
-    app.use(item.url, [item.validation, createProxyMiddleware(item.options)])
+    app.use(item.url, [item.validation, queue, createProxyMiddleware(item.options)])
 })  
 
 app.get('/manage/health', function(req, res) {
     return res.status(200).json({});
 })
 
-app.patch('/manage/queue', function(req, res) {
+app.post('/manage/queue', function(req, res) {
     console.log(req.body)
     let message = JSON.stringify({method: "patch", url: 'http://gateway:8080/api/v1/rating', body: {stars: 1}, headers: {'x-user-name': 'Test Max'}} );
     rsmq.sendMessage({
@@ -40,5 +40,34 @@ setInterval(() => {
             //.catch(console.error)
     });
 }, 500)   // Try after 3s
+
+function queue(req, res, next){
+    rsmq.receiveMessage({ qname: "APPQUEUE" }, (err, resp) => {
+        if (err) {
+           console.error(err);
+           return;
+        }
+        if (resp.id) {
+            console.log(resp.message);
+            let {method, url, headers, body} = JSON.parse(resp.message);
+            if(method == 'patch'){
+                try {
+                    axios.patch(url, body, {headers: headers});
+                    rsmq.deleteMessage({ qname: "APPQUEUE", id: resp.id }, (err) => {
+                        if (err) {
+                           console.error(err);
+                           return;
+                        }
+                        console.log("Deleted message with id", resp.id);
+                    });                
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        } else {
+            console.log("No message in queue");
+        }
+    });
+}
 
 module.exports = app;

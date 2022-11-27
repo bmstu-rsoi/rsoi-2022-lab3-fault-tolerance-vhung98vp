@@ -16,33 +16,4 @@ rsmq.createQueue({qname: "APPQUEUE"}, (err) => {
     console.log("Queue created");
 });
 
-setInterval(() => {
-    rsmq.receiveMessage({ qname: "APPQUEUE" }, (err, resp) => {
-        if (err) {
-           console.error(err);
-           return;
-        }
-        if (resp.id) {
-            console.log(resp.message);
-            let {method, url, headers, body} = JSON.parse(resp.message);
-            if(method == 'patch'){
-                try {
-                    axios.patch(url, body, {headers: headers}, {timeout: 200});
-                    rsmq.deleteMessage({ qname: "APPQUEUE", id: resp.id }, (err) => {
-                        if (err) {
-                           console.error(err);
-                           return;
-                        }
-                        console.log("Deleted message with id", resp.id);
-                    });                
-                } catch (err) {
-                    console.log(err)
-                }
-            }
-        } else {
-            console.log("No message in queue");
-        }
-    });
-}, 200)   // Try after 1s
-
 module.exports = rsmq;

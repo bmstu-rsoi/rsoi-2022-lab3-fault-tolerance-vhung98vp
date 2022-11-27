@@ -116,14 +116,14 @@ class ReservationController {
                 await axios.patch(GATEWAY_URL + '/api/v1/books/' + reservation.book_uid, {rent: false, condition});
             } catch (error) {
                 let failReq = {method: "patch", url: GATEWAY_URL + '/api/v1/books/' + reservation.book_uid, body: {rent: false, condition}}    
-                await axios.patch(GATEWAY_URL + '/manage/queue', {failReq})
+                await axios.post(GATEWAY_URL + '/manage/queue', {failReq});
                 console.log(error);
             }           
             try{
-                await axios.patch(GATEWAY_URL + '/api/v1/rating', {stars: starChange}, {headers: {'x-user-name': username}, timeout: 1000});
+                await axios.patch(GATEWAY_URL + '/api/v1/rating', {stars: starChange}, {headers: {'x-user-name': username}});
             } catch (error) {
                 let failReq = {method: "patch", url: GATEWAY_URL + '/api/v1/rating', body: {stars: starChange}, headers: {'x-user-name': username}} 
-                await axios.patch(GATEWAY_URL + '/manage/queue', {failReq})
+                await axios.post(GATEWAY_URL + '/manage/queue', {failReq});
                 console.log(error);
             }  
             return res.status(204).json();            
