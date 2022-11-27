@@ -120,7 +120,7 @@ class ReservationController {
                 console.log(error);
             }           
             try{
-                await axios.patch(GATEWAY_URL + '/api/v1/rating', {stars: starChange}, {headers: {'x-user-name': username}});
+                await axios.patch(GATEWAY_URL + '/api/v1/rating', {stars: starChange}, {headers: {'x-user-name': username}, timeout: 1000});
             } catch (error) {
                 let failReq = {method: "patch", url: GATEWAY_URL + '/api/v1/rating', body: {stars: starChange}, headers: {'x-user-name': username}} 
                 await axios.patch(GATEWAY_URL + '/manage/queue', {failReq})
