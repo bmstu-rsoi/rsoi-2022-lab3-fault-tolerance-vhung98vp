@@ -68,6 +68,7 @@ function queue(req, res, next){
             console.log("No message in queue");
         }
     });
+    next();
 }
 
 module.exports = app;
