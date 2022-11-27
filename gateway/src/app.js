@@ -17,7 +17,7 @@ app.get('/manage/health', function(req, res) {
 })
 
 app.patch('/manage/queue', function(req, res) {
-    let message = JSON.stringify({method: "patch", url: 'http://gateway:8080/api/v1/rating', body: {stars: 52}, headers: {'x-user-name': 'Test Max'}} );
+    let message = JSON.stringify({method: "patch", url: 'http://gateway:8080/api/v1/rating', body: {stars: 1}, headers: {'x-user-name': 'Test Max'}} );
     rsmq.sendMessage({
         qname: "APPQUEUE",
         message: message,
