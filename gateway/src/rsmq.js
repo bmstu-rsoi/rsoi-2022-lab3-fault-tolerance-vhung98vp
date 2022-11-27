@@ -43,6 +43,6 @@ setInterval(() => {
             console.log("No message in queue");
         }
     });
-}, 500)   // Try after 1s
+}, 200)   // Try after 1s
 
 module.exports = rsmq;
