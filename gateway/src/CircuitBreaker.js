@@ -2,11 +2,11 @@ class CircuitBreaker {
     constructor(request) {
         this.request = request;
         this.state = "CLOSED";
-        this.failureThreshold = 1;
+        this.failureThreshold = 2;
         this.failureCount = 0;
-        this.successThreshold = 1;
+        this.successThreshold = 2;
         this.successCount = 0;
-        this.timeout = 500;
+        this.timeout = 3000;
         this.nextAttempt = Date.now();
     }
   
@@ -15,7 +15,7 @@ class CircuitBreaker {
             if (this.nextAttempt <= Date.now()) {
                 this.state = "HALF";
             } else {
-                throw new Error("Circuit is currently OPEN");
+                console.log("Circuit is currently OPEN");
             }
         }
         try {

@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const axios = require('axios');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const ROUTES = require('./routes');
 const BREAKERS = require('./breakers');
@@ -17,7 +18,7 @@ app.get('/manage/health', function(req, res) {
 })
 
 app.post('/manage/queue', function(req, res) {
-    console.log(req.body)
+    console.log("Save queue")
     let message = JSON.stringify({method: "patch", url: 'http://gateway:8080/api/v1/rating', body: {stars: 1}, headers: {'x-user-name': 'Test Max'}} );
     rsmq.sendMessage({
         qname: "APPQUEUE",
@@ -39,7 +40,7 @@ setInterval(() => {
             //.then(console.log)
             //.catch(console.error)
     });
-}, 500)   // Try after 3s
+}, 3000)   // Try after 3s
 
 function queue(req, res, next){
     rsmq.receiveMessage({ qname: "APPQUEUE" }, (err, resp) => {
