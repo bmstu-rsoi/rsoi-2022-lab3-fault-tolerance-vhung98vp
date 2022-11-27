@@ -6,7 +6,7 @@ class CircuitBreaker {
         this.failureCount = 0;
         this.successThreshold = 1;
         this.successCount = 0;
-        this.timeout = 1000;
+        this.timeout = 500;
         this.nextAttempt = Date.now();
     }
   

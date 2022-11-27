@@ -39,6 +39,6 @@ setInterval(() => {
             //.then(console.log)
             //.catch(console.error)
     });
-}, 1000)   // Try after 3s
+}, 500)   // Try after 3s
 
 module.exports = app;
