@@ -27,7 +27,7 @@ setInterval(() => {
             let {method, url, headers, body} = JSON.parse(resp.message);
             if(method == 'patch'){
                 try {
-                    axios.patch(url, headers, body, {timeout: 200});
+                    axios.patch(url, body, {headers: headers}, {timeout: 200});
                     rsmq.deleteMessage({ qname: "APPQUEUE", id: resp.id }, (err) => {
                         if (err) {
                            console.error(err);
