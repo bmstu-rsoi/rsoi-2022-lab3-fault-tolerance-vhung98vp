@@ -40,7 +40,7 @@ setInterval(() => {
             //.then(console.log)
             //.catch(console.error)
     });
-}, 3000)   // Try after 3s
+}, 500)   // Try after 3s
 
 function queue(req, res, next){
     rsmq.receiveMessage({ qname: "APPQUEUE" }, (err, resp) => {
